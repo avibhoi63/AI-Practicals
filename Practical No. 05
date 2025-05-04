@@ -1,72 +1,83 @@
-Implement Greedy search algorithm for any of the following application:  Selection Sort  Minimum Spanning Tree  Single-Source Shortest Path Problem  Job Scheduling Problem  Prim's Minimal Spanning Tree Algorithm  Kruskal's Minimal Spanning Tree Algorithm  Dijkstra's Minimal Spanning Tree Algorithm.
+Develop an elemantary chatbot for any suitable customer interaction application
+
+Code
+
+import nltk
+from nltk.chat.util import Chat, reflections
+import tkinter as tk
+from tkinter import scrolledtext
+
+# Define chatbot pairs (pattern-response)
+pairs = [
+    [
+        r"hi|hello|hey",
+        ["Hello! How can I help you today?", "Hi there! Need any assistance?"]
+    ],
+    [
+        r"what is your name ?",
+        ["I am a customer support chatbot.",]
+    ],
+    [
+        r"bye|exit|quit",
+        ["Goodbye! Have a great day!", "Thank you for visiting!"]
+    ],
+    [
+        r"(.*)",
+        ["I'm not sure I understand. Could you rephrase that?", "Can you please clarify your question?"]
+    ]
+]
+
+# Initialize chatbot
+chatbot = Chat(pairs, reflections)
+
+# Create GUI
+def send_message():
+    user_input = user_entry.get()
+    chat_area.insert(tk.END, "You: " + user_input + "\n")
+    response = chatbot.respond(user_input)
+    chat_area.insert(tk.END, "Bot: " + response + "\n")
+    user_entry.delete(0, tk.END)
+
+# Create main window
+root = tk.Tk()
+root.title("Simple Chatbot")
+# Chat display area
+chat_area = scrolledtext.ScrolledText(root, wrap=tk.WORD,width=50,height=15)
+chat_area.pack(padx=10, pady=10)
+
+# Entry field and Send button
+user_entry = tk.Entry(root, width=40)
+user_entry.pack(padx=10, pady=5)
+send_button = tk.Button(root, text="Send", command=send_message)
+send_button.pack(pady=5)
+frame.pack(pady=10)
+
+# Start GUI
+root.mainloop()
 
 
-Code:
-def selection_sort(arr):
-    n = len(arr)
+Objective
+  To develop a simple chatbot that can interact with customers and respond to basic queries related to a specific application (e.g., online shopping, banking, or tech support).
 
-    # Traverse through all array elements
-    for i in range(n):
-        # Find the minimum element in the remaining unsorted array
-        min_index = i
-        for j in range(i+1, n):
-            if arr[j] < arr[min_index]:
-                min_index = j
+Description
+  The chatbot is a rule-based system designed to handle basic customer queries such as greetings, product inquiries, store hours, and contact details. It uses pattern matching (like if-else or keyword checking) to determine appropriate responses. This elementary chatbot runs in a console or web interface and provides a quick-response assistant for FAQs.
 
-        # Swap the found minimum element with the first element
-        arr[i], arr[min_index] = arr[min_index], arr[i]
-        print(f"Step {i+1}: {arr}")  # Print the array after each swap
+Theory
+  A chatbot is a software application designed to simulate conversation with human users. There are two types:
+  Rule-Based Chatbots: Use predefined rules to respond to queries.
+  AI-Based Chatbots: Use NLP and ML to learn from data and improve over time.
+  This project focuses on a rule-based chatbot, which is easy to implement and suitable for handling straightforward tasks like:
+    Greeting users
+    Answering FAQs
+    Providing contact/support info
 
-    return arr
+Algorithm 
+  Start chatbot and display a welcome message.
+  Take user input as a string.
+  Check for specific keywords (e.g., "hello", "price", "support", "bye") in the input.
+  Match the input with a predefined set of responses using if-elif-else or a dictionary.
+  Return the matching response to the user.
+  Repeat until the user types "exit" or "bye".
 
-# Example usage:
-arr = [64, 25, 12, 22, 11]
-print("Original array:", arr)
-sorted_arr = selection_sort(arr)
-print("Sorted array:", sorted_arr)
-
-
-Description=
-Title: 
-Objective: To implement Selection Sort using the Greedy approach, which repeatedly selects the smallest element from the unsorted portion of an array and moves it to its correct position.
-Greedy Strategy Explanation: Selection Sort uses a greedy method by selecting the minimum (locally optimal) element in each pass and placing it in the correct position. It assumes that selecting the smallest element at each step will eventually sort the entire array (global optimum).
-Algorithm Steps:
-	1.	Start from the first element of the array.
-	2.	Find the smallest element in the unsorted part of the array.
-	3.	Swap it with the current element.
-	4.	Repeat the process for the remaining unsorted elements.
-Time and Space Complexity:
-	•	Time Complexity: O(n²)
-	•	Space Complexity: O(1) – In-place sort
-Conclusion: Selection Sort is a simple example of a Greedy Algorithm, where at each step, the best immediate option (minimum value) is selected. Though not optimal for large datasets, it helps understand the greedy paradigm.
-
-	
-    1.	What is a greedy algorithm?
-	•	Answer: A greedy algorithm makes the best possible (locally optimal) choice at each step with the hope of finding a global optimum.
-	2.	Why is Selection Sort considered a greedy algorithm?
-	•	Answer: Because at each step, it selects the minimum element (locally best choice) from the unsorted part and places it in the correct position.
-	3.	What is the time complexity of Selection Sort?
-	•	Answer: O(n²) in all cases (best, average, worst).
-	4.	Is Selection Sort stable?
-	•	Answer: No, Selection Sort is not stable as it may change the relative order of equal elements.
-	5.	What is the space complexity of Selection Sort?
-	•	Answer: O(1) – it sorts the array in-place.
-
-Explainantion of code:
-
-def selection_sort(arr):   ---Defines a function selection_sort that takes a list arr as input.
-    n = len(arr)   ---	•	Stores the length of the array in variable n.
-    for i in range(n):     ----Outer loop runs from 0 to n-1. Each iteration i represents the current position in the array where we will place the smallest element from the unsorted part.
-        min_index = i     ---	Assume the current element arr[i] is the smallest. Store its index as min_index.
-        for j in range(i+1, n):   ----Inner loop goes through the unsorted part of the array (from i+1 to end) to find the actual minimum.
-            if arr[j] < arr[min_index]:
-                min_index = j     -----Inner loop goes through the unsorted part of the array (from i+1 to end) to find the actual minimum.
-            if arr[j] < arr[min_index]:
-                min_index = j   ----  	If a smaller element than the current minimum is found, update min_index with the new index.
-        print(f"Step {i+1}: {arr}") ---- # Print the array after each swap
-arr = [64, 25, 12, 22, 11]  -----	Initializes an example array to be sorted.
-print("Original array:", arr)   ---  Displays the unsorted array.
-sorted_arr = selection_sort(arr)   ----Calls the selection_sort function to sort the array.
-print("Sorted array:", sorted_arr)   ------Displays the final sorted array.
-
-
+Conclusio
+  The developed chatbot demonstrates a basic level of automated customer interaction. Though limited to fixed rules and responses, it is efficient for answering repetitive queries and reducing the load on human support. This elementary chatbot lays the foundation for more advanced, AI-based systems.
