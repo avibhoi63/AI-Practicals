@@ -144,4 +144,56 @@ class AStar:
         while current in came_from:
             current = came_from[current]
             total_path.append(current)
-        return total_path[::-1]    ----
+        return total_path[::-1]    ----	•	Builds the path from goal to start using came_from.
+	•	Reverses it to return from start to goal.
+
+grid = [
+    [0, 1, 0, 0, 0],
+    [0, 1, 0, 1, 0],
+    [0, 0, 0, 1, 0],
+    [1, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0]
+]   ----	•	Defines a 5x5 grid where 0 = walkable and 1 = blocked.
+
+print("Path from start to goal:", path)   ----Prints the shortest path 
+
+
+
+Question:
+
+⸻
+
+Q1: What is the A algorithm?*
+A* finds the shortest path using both actual cost (g) and estimated cost (h): f(n) = g(n) + h(n).
+
+Q2: What heuristic is used?
+Manhattan distance — suitable for 4-direction grid movement.
+
+Q3: What data structures are used?
+	•	heapq (priority queue)
+	•	Dictionaries (g_score, f_score, came_from)
+	•	2D grid list
+
+Q4: What if no path is found?
+Returns an empty list [].
+
+Q5: Time and space complexity?
+	•	Time: O(E)
+	•	Space: O(V)
+
+Q6: Is A used in games?*
+Yes, it’s commonly used in games and robotics.
+
+Q7: Difference between A and Dijkstra?*
+Dijkstra: Only g(n).
+A*: Uses g(n) + h(n) — faster with a good heuristic.
+
+Q8: Why use a priority queue?
+To pick the node with the lowest f-score efficiently.
+
+Q9: How is the path reconstructed?
+Trace from goal to start using came_from and reverse it.
+
+Q10: Can it handle diagonal movement?
+Not currently. Needs extra directions in neighbors().
+
