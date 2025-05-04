@@ -319,3 +319,44 @@ game.print_board()
 
 best_move = game.find_best_move()
 print(f"\nThe best move for 'X' is: {best_move}")    ----Creates an instance of TicTacToe, sets a board configuration, prints the current board, and calculates the best move for MAX_PLAYER (‘X’) using the find_best_move method.
+
+
+Question :
+1.	What is Alpha-Beta pruning?
+→ It’s an optimization of the Minimax algorithm that skips evaluating parts of the tree that won’t affect the final decision.
+	2.	How does it improve performance?
+→ It reduces the number of nodes evaluated, improving time complexity from O(b^d) to O(b^(d/2)) in the best case.
+	3.	Role of alpha and beta?
+→ Alpha is the best value for the maximizer so far; Beta is for the minimizer. If beta ≤ alpha, further search is stopped.
+	4.	Effect of depth?
+→ Greater depth increases time but gives more accurate results. Less depth is faster but less optimal.
+	5.	Advantages in games?
+→ Faster decision-making by pruning unnecessary paths; useful in real-time games.
+	6.	Maximizing vs Minimizing?
+→ MAX_PLAYER tries to maximize score; MIN_PLAYER tries to minimize it.
+	7.	Why evaluate the board?
+→ To know which player is in a winning, losing, or neutral position.
+	8.	Why handle ties?
+→ To identify and return 0 when the game ends without a winner.
+	9.	What if Alpha-Beta is removed?
+→ The algorithm checks more nodes, becoming slower, especially for larger trees.
+
+⸻
+
+Code-Specific Questions
+1.	Why use math.inf?
+→ To initialize alpha and beta with extreme values for comparison.
+2.	Explain minimax function?
+→ Recursively simulates all moves to choose the best outcome using alpha-beta pruning.
+3.	Purpose of find_best_move?
+→ Tests all valid moves, runs minimax on each, and picks the one with the best score.
+4.	How is board state managed?
+→ Each move is undone after recursion (board[i][j] = EMPTY).
+5.	What if board was 5x5?
+→ Time complexity grows rapidly; pruning becomes more important.
+6.	Role of is_moves_left?
+→ Stops recursion when no moves are left (draw condition).
+7.	Why use simple evaluation?
+→ For TicTacToe, it’s sufficient. Complex games need advanced heuristics.
+8.	Why score - depth or + depth?
+→ To prefer quicker wins and delay losses.
