@@ -196,4 +196,3 @@ Trace from goal to start using came_from and reverse it.
 
 Q10: Can it handle diagonal movement?
 Not currently. Needs extra directions in neighbors().
-
