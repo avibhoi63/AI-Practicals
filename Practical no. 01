@@ -52,3 +52,29 @@ g.dfs_recursive(0)
 
 print("\nBreadth First Search (starting from vertex 0):")
 g.bfs(0)
+
+
+Description :
+Objective:cTo implement Depth First Search (DFS) using recursion and Breadth First Search (BFS) using a queue on an undirected graph and traverse all its vertices.
+Theory:
+Graph Traversal refers to the process of visiting all the vertices in a graph.
+	•	Depth First Search (DFS):
+	•	DFS is a traversal algorithm that starts from a source node and explores as far as possible along each branch before backtracking.
+	•	It uses recursion or an explicit stack.
+	•	In this implementation, DFS is recursive and uses a set to track visited nodes.
+	•	Breadth First Search (BFS):
+	•	BFS is a traversal algorithm that starts from a source node and explores all its neighboring nodes at the present depth before moving on to nodes at the next level.
+	•	It uses a queue to manage the traversal order.
+Both algorithms are demonstrated on an undirected graph using Python.
+
+Algorithm Steps:
+DFS Recursive Algorithm:
+	1.	Start from the given vertex.
+	2.	Mark the current vertex as visited.
+	3.	Recursively visit all adjacent unvisited vertices.
+BFS Algorithm:
+	1.	Start from the given vertex and mark it as visited.
+	2.	Add it to a queue.
+	3.	While the queue is not empty:
+	•	Remove a vertex from the queue and print it.
+	•	Add all its unvisited neighbors to the queue and mark them as visit
