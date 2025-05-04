@@ -77,3 +77,71 @@ a_star = AStar(grid, start, goal)
 path = a_star.a_star_search()
 
 print("Path from start to goal:", path)
+
+
+Title:
+Objective:
+To implement the A* (A-Star) algorithm to find the shortest path from a starting point to a goal point in a grid-based game environment.
+Theory:
+
+A Algorithm* is a popular and powerful pathfinding and graph traversal algorithm used in many AI applications such as games and navigation systems.
+	•	It combines features of Dijkstra’s Algorithm and Greedy Best-First Search.
+	•	It uses the following function to determine the priority of each node:
+f(n) = g(n) + h(n)
+where:
+	•	g(n) = actual cost from the start node to current node n
+	•	h(n) = heuristic estimated cost from n to the goal (Manhattan Distance in this case)
+Algorithm Steps:
+	1.	Initialize an open list as a priority queue and insert the start node.
+	2.	Maintain g_score (cost from start) and f_score (estimated total cost).
+	3.	While the open list is not empty:
+	•	Pick the node with the lowest f_score.
+	•	If it’s the goal, reconstruct and return the path.
+	•	For each valid neighbor:
+	•	Calculate tentative g_score.
+	•	If this path is better, update scores and record the path.
+	4.	If goal is not reached and the open list is empty, return an empty path.
+Conclusion:The A* algorithm efficiently finds the shortest path using both actual distance and heuristic estimation. It is widely used in game AI and robotics for smart pathfinding in dynamic environments.
+
+
+Explaination: 
+class AStar:
+    def __init__(self, grid, start, goal):   ---	•	Defines the AStar class and its constructor method.
+	•	Takes a grid, start, and goal as inputs.
+
+        self.grid = grid  # 2D grid where 0 = walkable, 1 = blocked
+        self.start = start  # Start position (x, y)
+        self.goal = goal  # Goal position (x, y)
+        self.rows = len(grid)
+        self.cols = len(grid[0])     ----	•	Stores the grid and start/goal coordinates.
+	•	Also stores the number of rows and columns in the grid for boundary checks.
+
+        def heuristic(self, node):
+        return abs(node[0] - self.goal[0]) + abs(node[1] - self.goal[1])    -----	This is the Manhattan distance heuristic.
+	•	It estimates the cost from a node to the goal by summing the horizontal and vertical distances.
+
+    def neighbors(self, node):
+        dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # Directions: right, down, left, up
+        result = []   ----	•	Defines movement directions in a 2D grid (right, down, left, up).
+
+        for d in dirs:
+            neighbor = (node[0] + d[0], node[1] + d[1])
+            if 0 <= neighbor[0] < self.rows and 0 <= neighbor[1] < self.cols and self.grid[neighbor[0]][neighbor[1]] == 0:
+                result.append(neighbor)
+        return result    ----	•	For each direction, calculates the neighbor and checks:
+	•	It is within grid bounds.
+	•	It is walkable (0, not blocked).
+	•	Adds valid neighbors to the result list.
+
+    def a_star_search(self):
+        open_list = []
+        heapq.heappush(open_list, (0, self.start))   ----	•	Initializes the open list (priority queue).
+	•	Inserts the start node with a priority of 0.
+
+
+    def reconstruct_path(self, came_from, current):
+        total_path = [current]
+        while current in came_from:
+            current = came_from[current]
+            total_path.append(current)
+        return total_path[::-1]    ----
