@@ -1,362 +1,70 @@
-Implement Alpha-Beta Tree search for any game search problem.
+Implement Greedy search algorithm for any of the following application:  Selection Sort  Minimum Spanning Tree  Single-Source Shortest Path Problem  Job Scheduling Problem  Prim's Minimal Spanning Tree Algorithm  Kruskal's Minimal Spanning Tree Algorithm  Dijkstra's Minimal Spanning Tree Algorithm.
 
 
 Code:
-import math
-MAX_PLAYER = 'X'
-MIN_PLAYER = 'O'
-EMPTY = '_'
+def selection_sort(arr):
+    n = len(arr)
 
-class TicTacToe:
-    def __init__(self):
-        # Initialize an empty 3x3 board
-        self.board = [
-            [EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY]
-        ]
+    # Traverse through all array elements
+    for i in range(n):
+        # Find the minimum element in the remaining unsorted array
+        min_index = i
+        for j in range(i+1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
 
-    def is_moves_left(self, board):
-        # Check if there are empty cells left on the board
-        for row in board:
-            if EMPTY in row:
-                return True
-        return False
+        # Swap the found minimum element with the first element
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+        print(f"Step {i+1}: {arr}")  # Print the array after each swap
 
-    def evaluate(self, board):
-        # Check rows, columns, and diagonals for a winner
-        for row in range(3):
-            if board[row][0] == board[row][1] == board[row][2]:
-                if board[row][0] == MAX_PLAYER:
-                    return 10
-                elif board[row][0] == MIN_PLAYER:
-                    return -10
+    return arr
 
-        for col in range(3):
-            if board[0][col] == board[1][col] == board[2][col]:
-                if board[0][col] == MAX_PLAYER:
-                    return 10
-                elif board[0][col] == MIN_PLAYER:
-                    return -10
-
-        if board[0][0] == board[1][1] == board[2][2]:
-            if board[0][0] == MAX_PLAYER:
-                return 10
-            elif board[0][0] == MIN_PLAYER:
-                return -10
-
-        if board[0][2] == board[1][1] == board[2][0]:
-            if board[0][2] == MAX_PLAYER:
-                return 10
-            elif board[0][2] == MIN_PLAYER:
-                return -10
-
-        return 0
-
-    def minimax(self, board, depth, is_maximizing, alpha, beta):
-        score = self.evaluate(board)
-        if score == 10:
-            return score - depth
-        if score == -10:
-            return score + depth
-
-        # If no more moves and no winner (tie)
-        if not self.is_moves_left(board):
-            return 0
-
-        if is_maximizing:
-            best = -math.inf
-            for i in range(3):
-                for j in range(3):
-                    if board[i][j] == EMPTY:
-                        # Make the move
-                        board[i][j] = MAX_PLAYER
-
-                        # Recur and choose the maximum value
-                        best = max(best, self.minimax(board, depth + 1, False, alpha, beta))
-                        board[i][j] = EMPTY
-                        alpha = max(alpha, best)
-                        if beta <= alpha:
-                            break
-            return best
-
-        else:
-            best = math.inf
-            for i in range(3):
-                for j in range(3):
-                    if board[i][j] == EMPTY:
-                        # Make the move
-                        board[i][j] = MIN_PLAYER
-                        best = min(best, self.minimax(board, depth + 1, True, alpha, beta))
-
-                        board[i][j] = EMPTY
-
-                        # Update beta
-                        beta = min(beta, best)
-
-                        # Alpha-Beta Pruning
-                        if beta <= alpha:
-                            break
-            return best
-
-    def find_best_move(self):
-        best_val = -math.inf
-        best_move = (-1, -1)
-
-        # Traverse all cells, evaluate minimax function for each empty cell, and return the best move
-        for i in range(3):
-            for j in range(3):
-                if self.board[i][j] == EMPTY:
-                    # Make the move
-                    self.board[i][j] = MAX_PLAYER
-
-                    # Compute evaluation function for this move
-                    move_val = self.minimax(self.board, 0, False, -math.inf, math.inf)
-
-                    # Undo the move
-                    self.board[i][j] = EMPTY
-
-                    # If the value of the current move is better than the best value, update best move
-                    if move_val > best_val:
-                        best_move = (i, j)
-                        best_val = move_val
-
-        return best_move
-
-    def print_board(self):
-        for row in self.board:
-            print(" | ".join(row))
-            print("-" * 9)
-game = TicTacToe()
-game.board = [
-    ['X', 'O', 'X'],
-    ['O', 'O', '_'],
-    ['_', '_', 'X']
-]
-
-print("Current board:")
-game.print_board()
-
-best_move = game.find_best_move()
-print(f"\nThe best move for 'X' is: {best_move}")
+# Example usage:
+arr = [64, 25, 12, 22, 11]
+print("Original array:", arr)
+sorted_arr = selection_sort(arr)
+print("Sorted array:", sorted_arr)
 
 
+Description=
+Title: 
+Objective: To implement Selection Sort using the Greedy approach, which repeatedly selects the smallest element from the unsorted portion of an array and moves it to its correct position.
+Greedy Strategy Explanation: Selection Sort uses a greedy method by selecting the minimum (locally optimal) element in each pass and placing it in the correct position. It assumes that selecting the smallest element at each step will eventually sort the entire array (global optimum).
+Algorithm Steps:
+	1.	Start from the first element of the array.
+	2.	Find the smallest element in the unsorted part of the array.
+	3.	Swap it with the current element.
+	4.	Repeat the process for the remaining unsorted elements.
+Time and Space Complexity:
+	•	Time Complexity: O(n²)
+	•	Space Complexity: O(1) – In-place sort
+Conclusion: Selection Sort is a simple example of a Greedy Algorithm, where at each step, the best immediate option (minimum value) is selected. Though not optimal for large datasets, it helps understand the greedy paradigm.
 
-Description:
-Titile:
-Objective: To implement the Alpha-Beta Pruning optimization technique for the Minimax algorithm in a two-player game (Tic-Tac-Toe) to efficiently find the best move.
-Theory:
-The Minimax algorithm is used in game theory to minimize the possible loss in a worst-case scenario. It is commonly applied in turn-based two-player games like Tic-Tac-Toe.
-However, Minimax explores all possible moves, which can be computationally expensive. Alpha-Beta Pruning is an optimization technique that eliminates branches in the game tree which don’t influence the final decision, thereby reducing the number of nodes evaluated and improving efficiency.
-	•	Alpha represents the best value that the maximizer currently can guarantee.
-	•	Beta represents the best value that the minimizer currently can guarantee.
-	•	When beta <= alpha, further exploration of that branch is stopped (pruned).
-Code Description:
-	•	A TicTacToe class is defined with a 3x3 board using 'X' for the maximizer, 'O' for the minimizer, and '_' for empty cells.
-	•	The evaluate() method checks for win conditions and assigns a score: +10 for 'X', -10 for 'O', and 0 otherwise.
-	•	The minimax() function implements the Alpha-Beta pruning logic:
-	•	It recursively checks all possible moves.
-	•	Updates alpha and beta values to prune unnecessary branches.
-	•	The find_best_move() function iterates over empty cells to find the move with the highest score for 'X'.
-	•	A sample board is provided, and the best move is printed based on the current state.
-Conclusion: Alpha-Beta Pruning significantly improves the performance of the Minimax algorithm by reducing the number of states evaluated. In this implementation, it successfully finds the optimal move for the player 'X' in the game of Tic-Tac-Toe.
+	
+    1.	What is a greedy algorithm?
+	•	Answer: A greedy algorithm makes the best possible (locally optimal) choice at each step with the hope of finding a global optimum.
+	2.	Why is Selection Sort considered a greedy algorithm?
+	•	Answer: Because at each step, it selects the minimum element (locally best choice) from the unsorted part and places it in the correct position.
+	3.	What is the time complexity of Selection Sort?
+	•	Answer: O(n²) in all cases (best, average, worst).
+	4.	Is Selection Sort stable?
+	•	Answer: No, Selection Sort is not stable as it may change the relative order of equal elements.
+	5.	What is the space complexity of Selection Sort?
+	•	Answer: O(1) – it sorts the array in-place.
 
+Explainantion of code:
 
-
-Code Explaination:
-
-MAX_PLAYER = 'X'
-MIN_PLAYER = 'O'
-EMPTY = '_'   ----	•	MAX_PLAYER: Represents the player ‘X’, the one trying to maximize the score.
-	•	MIN_PLAYER: Represents the player ‘O’, the one trying to minimize the score.
-	•	EMPTY: Represents an empty space on the board.
-
-class TicTacToe:
-    def __init__(self):
-        # Initialize an empty 3x3 board
-        self.board = [
-            [EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY],
-            [EMPTY, EMPTY, EMPTY]
-        ]   ----	•	The TicTacToe class initializes the game with a 3x3 empty board, using '_' to represent an empty cell.
-
-def is_moves_left(self, board):
-    # Check if there are empty cells left on the board
-    for row in board:
-        if EMPTY in row:
-            return True
-    return False    ----	•	This method checks if there are any empty spaces ('_') left on the board. If there are, it returns True; otherwise, it returns False.
-
-def evaluate(self, board):
-    # Check rows, columns, and diagonals for a winner
-    for row in range(3):
-        if board[row][0] == board[row][1] == board[row][2]:
-            if board[row][0] == MAX_PLAYER:
-                return 10
-            elif board[row][0] == MIN_PLAYER:
-                return -10
-
-    for col in range(3):
-        if board[0][col] == board[1][col] == board[2][col]:
-            if board[0][col] == MAX_PLAYER:
-                return 10
-            elif board[0][col] == MIN_PLAYER:
-                return -10
-
-    if board[0][0] == board[1][1] == board[2][2]:
-        if board[0][0] == MAX_PLAYER:
-            return 10
-        elif board[0][0] == MIN_PLAYER:
-            return -10
-
-    if board[0][2] == board[1][1] == board[2][0]:
-        if board[0][2] == MAX_PLAYER:
-            return 10
-        elif board[0][2] == MIN_PLAYER:
-            return -10
-
-    return 0   ----	•	This method evaluates the board for a winner:
-	•	It checks all rows, columns, and diagonals.
-	•	If MAX_PLAYER wins, it returns 10; if MIN_PLAYER wins, it returns -10.
-	•	If no winner, it returns 0, indicating a tie or an ongoing game.
-
-def minimax(self, board, depth, is_maximizing, alpha, beta):
-    score = self.evaluate(board)
-    if score == 10:
-        return score - depth
-    if score == -10:
-        return score + depth
-
-    # If no more moves and no winner (tie)
-    if not self.is_moves_left(board):
-        return 0   ----	•	Minimax with Alpha-Beta Pruning:
-	•	score = self.evaluate(board): First, it checks if the board has a winner or if the game is over.
-	•	If there’s a winner, it adjusts the score based on the depth (to favor quicker wins or slower losses).
-	•	If no winner and no moves left, it returns a score of 0, indicating a draw.
-
-    if is_maximizing:
-        best = -math.inf
-        for i in range(3):
-            for j in range(3):
-                if board[i][j] == EMPTY:
-                    # Make the move
-                    board[i][j] = MAX_PLAYER
-
-                    # Recur and choose the maximum value
-                    best = max(best, self.minimax(board, depth + 1, False, alpha, beta))
-                    board[i][j] = EMPTY
-                    alpha = max(alpha, best)
-                    if beta <= alpha:
-                        break
-        return best    ----	best = -math.inf: Start with the worst possible value for MAX_PLAYER to maximize the score.
-	•	For every empty cell, it simulates the move, recursively calls minimax for the opponent, and updates the best score.
-	•	Alpha-Beta Pruning: The alpha value represents the best score the maximizing player can guarantee, and beta represents the best score the minimizing player can guarantee. If alpha >= beta, pruning occurs, and further exploration of the current branch is skipped.
-
-    else:
-        best = math.inf
-        for i in range(3):
-            for j in range(3):
-                if board[i][j] == EMPTY:
-                    # Make the move
-                    board[i][j] = MIN_PLAYER
-                    best = min(best, self.minimax(board, depth + 1, True, alpha, beta))
-
-                    board[i][j] = EMPTY
-
-                    # Update beta
-                    beta = min(beta, best)
-
-                    # Alpha-Beta Pruning
-                    if beta <= alpha:
-                        break
-        return best   ----	•	Minimizing Player (Player ‘O’):
-	•	best = math.inf: Start with the best possible value for MIN_PLAYER to minimize the score.
-	•	It works similarly to the maximizing player, except it tries to minimize the score for the opponent.
-
-def find_best_move(self):
-    best_val = -math.inf
-    best_move = (-1, -1)
-
-    # Traverse all cells, evaluate minimax function for each empty cell, and return the best move
-    for i in range(3):
-        for j in range(3):
-            if self.board[i][j] == EMPTY:
-                # Make the move
-                self.board[i][j] = MAX_PLAYER
-
-                # Compute evaluation function for this move
-                move_val = self.minimax(self.board, 0, False, -math.inf, math.inf)
-
-                # Undo the move
-                self.board[i][j] = EMPTY
-
-                # If the value of the current move is better than the best value, update best move
-                if move_val > best_val:
-                    best_move = (i, j)
-                    best_val = move_val
-
-    return best_move   ----	•	This method finds the best move for the MAX_PLAYER (‘X’).
-	•	It simulates each move on the board (for every empty space), computes the minimax value of that move, and tracks the best move.
-	•	After evaluating all possible moves, it returns the best move.
-
-def print_board(self):
-    for row in self.board:
-        print(" | ".join(row))
-        print("-" * 9)  ---Tdef print_board(self):
-    for row in self.board:
-        print(" | ".join(row))
-        print("-" * 9)
-
-game = TicTacToe()
-game.board = [
-    ['X', 'O', 'X'],
-    ['O', 'O', '_'],
-    ['_', '_', 'X']
-]
-
-print("Current board:")
-game.print_board()
-
-best_move = game.find_best_move()
-print(f"\nThe best move for 'X' is: {best_move}")    ----Creates an instance of TicTacToe, sets a board configuration, prints the current board, and calculates the best move for MAX_PLAYER (‘X’) using the find_best_move method.
-
-
-Question :
-1.	What is Alpha-Beta pruning?
-→ It’s an optimization of the Minimax algorithm that skips evaluating parts of the tree that won’t affect the final decision.
-	2.	How does it improve performance?
-→ It reduces the number of nodes evaluated, improving time complexity from O(b^d) to O(b^(d/2)) in the best case.
-	3.	Role of alpha and beta?
-→ Alpha is the best value for the maximizer so far; Beta is for the minimizer. If beta ≤ alpha, further search is stopped.
-	4.	Effect of depth?
-→ Greater depth increases time but gives more accurate results. Less depth is faster but less optimal.
-	5.	Advantages in games?
-→ Faster decision-making by pruning unnecessary paths; useful in real-time games.
-	6.	Maximizing vs Minimizing?
-→ MAX_PLAYER tries to maximize score; MIN_PLAYER tries to minimize it.
-	7.	Why evaluate the board?
-→ To know which player is in a winning, losing, or neutral position.
-	8.	Why handle ties?
-→ To identify and return 0 when the game ends without a winner.
-	9.	What if Alpha-Beta is removed?
-→ The algorithm checks more nodes, becoming slower, especially for larger trees.
-
-⸻
-
-Code-Specific Questions
-1.	Why use math.inf?
-→ To initialize alpha and beta with extreme values for comparison.
-2.	Explain minimax function?
-→ Recursively simulates all moves to choose the best outcome using alpha-beta pruning.
-3.	Purpose of find_best_move?
-→ Tests all valid moves, runs minimax on each, and picks the one with the best score.
-4.	How is board state managed?
-→ Each move is undone after recursion (board[i][j] = EMPTY).
-5.	What if board was 5x5?
-→ Time complexity grows rapidly; pruning becomes more important.
-6.	Role of is_moves_left?
-→ Stops recursion when no moves are left (draw condition).
-7.	Why use simple evaluation?
-→ For TicTacToe, it’s sufficient. Complex games need advanced heuristics.
-8.	Why score - depth or + depth?
-→ To prefer quicker wins and delay losses.
+def selection_sort(arr):   ---Defines a function selection_sort that takes a list arr as input.
+    n = len(arr)   ---	•	Stores the length of the array in variable n.
+    for i in range(n):     ----Outer loop runs from 0 to n-1. Each iteration i represents the current position in the array where we will place the smallest element from the unsorted part.
+        min_index = i     ---	Assume the current element arr[i] is the smallest. Store its index as min_index.
+        for j in range(i+1, n):   ----Inner loop goes through the unsorted part of the array (from i+1 to end) to find the actual minimum.
+            if arr[j] < arr[min_index]:
+                min_index = j     -----Inner loop goes through the unsorted part of the array (from i+1 to end) to find the actual minimum.
+            if arr[j] < arr[min_index]:
+                min_index = j   ----  	If a smaller element than the current minimum is found, update min_index with the new index.
+        print(f"Step {i+1}: {arr}") ---- # Print the array after each swap
+arr = [64, 25, 12, 22, 11]  -----	Initializes an example array to be sorted.
+print("Original array:", arr)   ---  Displays the unsorted array.
+sorted_arr = selection_sort(arr)   ----Calls the selection_sort function to sort the array.
+print("Sorted array:", sorted_arr)   ------Displays the final sorted array.
