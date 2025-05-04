@@ -139,3 +139,183 @@ game.print_board()
 
 best_move = game.find_best_move()
 print(f"\nThe best move for 'X' is: {best_move}")
+
+
+
+Description:
+Titile:
+Objective: To implement the Alpha-Beta Pruning optimization technique for the Minimax algorithm in a two-player game (Tic-Tac-Toe) to efficiently find the best move.
+Theory:
+The Minimax algorithm is used in game theory to minimize the possible loss in a worst-case scenario. It is commonly applied in turn-based two-player games like Tic-Tac-Toe.
+However, Minimax explores all possible moves, which can be computationally expensive. Alpha-Beta Pruning is an optimization technique that eliminates branches in the game tree which don’t influence the final decision, thereby reducing the number of nodes evaluated and improving efficiency.
+	•	Alpha represents the best value that the maximizer currently can guarantee.
+	•	Beta represents the best value that the minimizer currently can guarantee.
+	•	When beta <= alpha, further exploration of that branch is stopped (pruned).
+Code Description:
+	•	A TicTacToe class is defined with a 3x3 board using 'X' for the maximizer, 'O' for the minimizer, and '_' for empty cells.
+	•	The evaluate() method checks for win conditions and assigns a score: +10 for 'X', -10 for 'O', and 0 otherwise.
+	•	The minimax() function implements the Alpha-Beta pruning logic:
+	•	It recursively checks all possible moves.
+	•	Updates alpha and beta values to prune unnecessary branches.
+	•	The find_best_move() function iterates over empty cells to find the move with the highest score for 'X'.
+	•	A sample board is provided, and the best move is printed based on the current state.
+Conclusion: Alpha-Beta Pruning significantly improves the performance of the Minimax algorithm by reducing the number of states evaluated. In this implementation, it successfully finds the optimal move for the player 'X' in the game of Tic-Tac-Toe.
+
+
+
+Code Explaination:
+
+MAX_PLAYER = 'X'
+MIN_PLAYER = 'O'
+EMPTY = '_'   ----	•	MAX_PLAYER: Represents the player ‘X’, the one trying to maximize the score.
+	•	MIN_PLAYER: Represents the player ‘O’, the one trying to minimize the score.
+	•	EMPTY: Represents an empty space on the board.
+
+class TicTacToe:
+    def __init__(self):
+        # Initialize an empty 3x3 board
+        self.board = [
+            [EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY],
+            [EMPTY, EMPTY, EMPTY]
+        ]   ----	•	The TicTacToe class initializes the game with a 3x3 empty board, using '_' to represent an empty cell.
+
+def is_moves_left(self, board):
+    # Check if there are empty cells left on the board
+    for row in board:
+        if EMPTY in row:
+            return True
+    return False    ----	•	This method checks if there are any empty spaces ('_') left on the board. If there are, it returns True; otherwise, it returns False.
+
+def evaluate(self, board):
+    # Check rows, columns, and diagonals for a winner
+    for row in range(3):
+        if board[row][0] == board[row][1] == board[row][2]:
+            if board[row][0] == MAX_PLAYER:
+                return 10
+            elif board[row][0] == MIN_PLAYER:
+                return -10
+
+    for col in range(3):
+        if board[0][col] == board[1][col] == board[2][col]:
+            if board[0][col] == MAX_PLAYER:
+                return 10
+            elif board[0][col] == MIN_PLAYER:
+                return -10
+
+    if board[0][0] == board[1][1] == board[2][2]:
+        if board[0][0] == MAX_PLAYER:
+            return 10
+        elif board[0][0] == MIN_PLAYER:
+            return -10
+
+    if board[0][2] == board[1][1] == board[2][0]:
+        if board[0][2] == MAX_PLAYER:
+            return 10
+        elif board[0][2] == MIN_PLAYER:
+            return -10
+
+    return 0   ----	•	This method evaluates the board for a winner:
+	•	It checks all rows, columns, and diagonals.
+	•	If MAX_PLAYER wins, it returns 10; if MIN_PLAYER wins, it returns -10.
+	•	If no winner, it returns 0, indicating a tie or an ongoing game.
+
+def minimax(self, board, depth, is_maximizing, alpha, beta):
+    score = self.evaluate(board)
+    if score == 10:
+        return score - depth
+    if score == -10:
+        return score + depth
+
+    # If no more moves and no winner (tie)
+    if not self.is_moves_left(board):
+        return 0   ----	•	Minimax with Alpha-Beta Pruning:
+	•	score = self.evaluate(board): First, it checks if the board has a winner or if the game is over.
+	•	If there’s a winner, it adjusts the score based on the depth (to favor quicker wins or slower losses).
+	•	If no winner and no moves left, it returns a score of 0, indicating a draw.
+
+    if is_maximizing:
+        best = -math.inf
+        for i in range(3):
+            for j in range(3):
+                if board[i][j] == EMPTY:
+                    # Make the move
+                    board[i][j] = MAX_PLAYER
+
+                    # Recur and choose the maximum value
+                    best = max(best, self.minimax(board, depth + 1, False, alpha, beta))
+                    board[i][j] = EMPTY
+                    alpha = max(alpha, best)
+                    if beta <= alpha:
+                        break
+        return best    ----	best = -math.inf: Start with the worst possible value for MAX_PLAYER to maximize the score.
+	•	For every empty cell, it simulates the move, recursively calls minimax for the opponent, and updates the best score.
+	•	Alpha-Beta Pruning: The alpha value represents the best score the maximizing player can guarantee, and beta represents the best score the minimizing player can guarantee. If alpha >= beta, pruning occurs, and further exploration of the current branch is skipped.
+
+    else:
+        best = math.inf
+        for i in range(3):
+            for j in range(3):
+                if board[i][j] == EMPTY:
+                    # Make the move
+                    board[i][j] = MIN_PLAYER
+                    best = min(best, self.minimax(board, depth + 1, True, alpha, beta))
+
+                    board[i][j] = EMPTY
+
+                    # Update beta
+                    beta = min(beta, best)
+
+                    # Alpha-Beta Pruning
+                    if beta <= alpha:
+                        break
+        return best   ----	•	Minimizing Player (Player ‘O’):
+	•	best = math.inf: Start with the best possible value for MIN_PLAYER to minimize the score.
+	•	It works similarly to the maximizing player, except it tries to minimize the score for the opponent.
+
+def find_best_move(self):
+    best_val = -math.inf
+    best_move = (-1, -1)
+
+    # Traverse all cells, evaluate minimax function for each empty cell, and return the best move
+    for i in range(3):
+        for j in range(3):
+            if self.board[i][j] == EMPTY:
+                # Make the move
+                self.board[i][j] = MAX_PLAYER
+
+                # Compute evaluation function for this move
+                move_val = self.minimax(self.board, 0, False, -math.inf, math.inf)
+
+                # Undo the move
+                self.board[i][j] = EMPTY
+
+                # If the value of the current move is better than the best value, update best move
+                if move_val > best_val:
+                    best_move = (i, j)
+                    best_val = move_val
+
+    return best_move   ----	•	This method finds the best move for the MAX_PLAYER (‘X’).
+	•	It simulates each move on the board (for every empty space), computes the minimax value of that move, and tracks the best move.
+	•	After evaluating all possible moves, it returns the best move.
+
+def print_board(self):
+    for row in self.board:
+        print(" | ".join(row))
+        print("-" * 9)  ---Tdef print_board(self):
+    for row in self.board:
+        print(" | ".join(row))
+        print("-" * 9)
+
+game = TicTacToe()
+game.board = [
+    ['X', 'O', 'X'],
+    ['O', 'O', '_'],
+    ['_', '_', 'X']
+]
+
+print("Current board:")
+game.print_board()
+
+best_move = game.find_best_move()
+print(f"\nThe best move for 'X' is: {best_move}")    ----Creates an instance of TicTacToe, sets a board configuration, prints the current board, and calculates the best move for MAX_PLAYER (‘X’) using the find_best_move method.
