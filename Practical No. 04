@@ -12,9 +12,11 @@ def is_safe(board, row, col, n):
     for i in range(row):
         if board[i][col]:
             return False
+    # Check upper-left diagonal
     for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
         if board[i][j]:
             return False
+    # Check upper-right diagonal
     for i, j in zip(range(row, -1, -1), range(col, n)):
         if board[i][j]:
             return False
@@ -22,55 +24,131 @@ def is_safe(board, row, col, n):
 
 def solve_n_queens_backtracking(board, row, n):
     if row == n:
-        # If all queens are placed, print the solution
+        print_board(board)
+        return True
+    for col in range(n):
+        if is_safe(board, row, col, n):
+            board[row][col] = True
+            if solve_n_queens_backtracking(board, row + 1, n):
+                return True
+            board[row][col] = False  # Backtrack
+    return False
+
+def n_queens_backtracking(n):
+    board = [[False] * n for _ in range(n)]
+    if not solve_n_queens_backtracking(board, 0, n):
+        print("No solution exists.")
+
+def is_safe_branch_and_bound(row, col, cols, diags1, diags2, n):
+    return not (cols[col] or diags1[row + col] or diags2[row - col + (n - 1)])
+
+def solve_n_queens_branch_and_bound(row, n, cols, diags1, diags2, board):
+    if row == n:
         print_board(board)
         return True
 
     found_solution = False
     for col in range(n):
-        if is_safe(board, row, col, n):
-            board[row][col] = True  # Place the queen
-
-            # Recur to place the rest of the queens
-            found_solution = solve_n_queens_backtracking(board, row + 1, n) or found_solution
-
-            # If placing the queen at (row, col) didn't lead to a solution, backtrack
-            board[row][col] = False
- return found_solution
-
-def n_queens_backtracking(n):
-    board = [[False] * n for _ in range(n)]  # Initialize n x n board with False (no queens placed)
-    if not solve_n_queens_backtracking(board, 0, n):
-        print("No solution exists.")
-        def is_safe_branch_and_bound(row, col, cols, diags1, diags2, n):
-    return not (cols[col] or diags1[row + col] or diags2[row - col + (n - 1)])
-
-def solve_n_queens_branch_and_bound(row, n, cols, diags1, diags2, board):
-    if row == n:
-        # If all queens are placed, print the solution
-        print_board(board)
-        return True
-   found_solution = False
-
-    for col in range(n):
         if is_safe_branch_and_bound(row, col, cols, diags1, diags2, n):
-            # Place the queen
             board[row][col] = True
             cols[col] = True
             diags1[row + col] = True
             diags2[row - col + (n - 1)] = True
 
-            # Recur to place the rest of the queens
-            found_solution = solve_n_queens_branch_and_bound(row + 1, n, cols, diags1, diags2, board) or found_solution
+            found_solution = solve_n_queens_branch_and_bound(
+                row + 1, n, cols, diags1, diags2, board) or found_solution
+
             board[row][col] = False
             cols[col] = False
             diags1[row + col] = False
             diags2[row - col + (n - 1)] = False
+
     return found_solution
+
 def n_queens_branch_and_bound(n):
-    board = [[False] * n for _ in range(n)]  # Initialize n x n board with False (no queens placed)
+    board = [[False] * n for _ in range(n)]
     cols = [False] * n
-    diags1 = [False] * (2 * n - 1)  # For "/" diagonals
-    diags2 = [False] * (2 * n - 1)  # For "\" diagonals
+    diags1 = [False] * (2 * n - 1)
+    diags2 = [False] * (2 * n - 1)
     if not solve_n_queens_branch_and_bound(0, n, cols, diags1, diags2, board):
         print("No solution exists.")
+
+# Example usage:
+print("Backtracking Solution:")
+n_queens_backtracking(4)
+
+print("Branch and Bound Solution:")
+n_queens_branch_and_bound(4)
+
+
+Objective
+  To implement a solution for a Constraint Satisfaction Problem (CSP) using Branch and Bound and Backtracking, with the goal of solving the N-Queens problem, where N queens must be placed on an N×N chessboard such that no two queens attack each other.
+
+Description
+  The N-Queens Problem is a classic example of a CSP where:
+  Variables: Positions of N queens on the board.
+  Domain: Each queen can be placed in any row of a column.
+  Constraints: No two queens can be in the same row, column, or diagonal.
+  We use Backtracking as a base approach and Branch and Bound to improve performance by pruning unpromising branches early.
+
+Theory
+1. Constraint Satisfaction Problem (CSP)
+CSP consists of:
+  Variables
+  Domains (possible values for each variable)
+  Constraints (conditions that must be satisfied)
+2. Backtracking
+  It is a depth-first search-based technique. It tries all possible configurations and backtracks when a conflict is found.
+3. Branch and Bound
+  Enhances backtracking by applying a bound (cost function or feasibility check) to prune unnecessary branches that cannot lead to a solution.
+
+Algorithm
+  1.Start with an empty N×N board.
+  2.Define a recursive function to place queens column by column.
+  3.For each row in the current column:
+    Check if placing a queen is safe (no conflict in row, upper-left, lower-left diagonals).
+    If safe:
+      Place the queen.
+      Recur for the next column.
+      If solution found, return true.
+      Else, backtrack (remove queen).
+  4.If no safe position is found in the current column, return false.
+  5.If all queens are placed (i.e., last column passed), print the board.
+
+
+Conclusion
+  The N-Queens problem was successfully solved using Backtracking with Branch and Bound.
+  The approach efficiently places queens by pruning unsafe positions, significantly reducing the search space.
+  This implementation demonstrates how CSPs can be solved using classical AI search techniques.
+
+Expected Questions and Answers
+
+Q: What is the N-Queens problem?
+A: It is a problem of placing N queens on an N×N chessboard such that no two queens attack each other (no same row, column, or diagonal).
+
+Q: What type of problem is N-Queens classified as?
+A: It is a Constraint Satisfaction Problem (CSP).
+
+Q: What is backtracking?
+A: Backtracking is a recursive algorithmic technique for solving problems by trying all possibilities and undoing steps (backtracking) when a conflict is found.
+
+Q: How does Branch and Bound improve backtracking?
+A: Branch and Bound prunes the search tree by avoiding paths that can't lead to a valid solution, reducing unnecessary computation.
+
+Q: What are the constraints in the N-Queens problem?
+A: No two queens should be in the same row, column, or diagonal.
+
+Q: Why do we place one queen per column (or row)?
+A: To reduce complexity and ensure that no two queens are in the same column (or row).
+
+Q: Can there be multiple solutions for N-Queens?
+A: Yes, depending on the value of N, there can be multiple valid solutions.
+
+Q: What is the time complexity of the N-Queens backtracking algorithm?
+A: The worst-case time complexity is O(N!), though it is improved in practice by pruning.
+
+Q: What happens if N = 2 or N = 3?
+A: There is no solution for N = 2 or N = 3.
+
+Q: What is the role of the safety check in the algorithm?
+A: It ensures that placing a queen doesn’t lead to an invalid configuration, helping to apply the "bound" part of Branch and Boun
