@@ -78,3 +78,93 @@ BFS Algorithm:
 	3.	While the queue is not empty:
 	•	Remove a vertex from the queue and print it.
 	•	Add all its unvisited neighbors to the queue and mark them as visit
+
+Explaination of the code:
+
+from collections import defaultdict, deque    ---	•	defaultdict: Automatically initializes a list for new keys (used for the graph).
+	•	deque: Used for efficient queue operations in BFS.
+
+class Graph:
+    def __init__(self):
+        self.graph = defaultdict(list)   ----	•	Initializes an empty undirected graph using a dictionary where each key (node) maps to a list of neighbors.
+
+def add_edge(self, u, v):
+    self.graph[u].append(v)
+    self.graph[v].append(u)   -----  Adds an edge between nodes u and v.
+	•	Since the graph is undirected, it adds both u → v and v → u.
+
+def dfs_recursive(self, vertex, visited=None):   ----	Starts DFS traversal from a given vertex using recursion.
+
+    if visited is None:
+        visited = set()  ----	•	Initializes a visited set to avoid revisiting nodes.
+
+    visited.add(vertex)
+    print(vertex, end=' ') ---  	•	Marks the current vertex as visited and prints it.
+
+    for neighbor in self.graph[vertex]:
+        if neighbor not in visited:
+            self.dfs_recursive(neighbor, visited)   ---Recursively visits each unvisited neighbor.
+
+def bfs(self, start):
+    visited = set()
+    queue = deque([start])    ----	Initializes a queue with the starting node and a visited set.
+
+    visited.add(start)     ----	Marks the starting node as visited
+
+    while queue:
+        vertex = queue.popleft()
+        print(vertex, end=' ')    ----- 	Removes the front node from the queue and prints it.
+
+        for neighbor in self.graph[vertex]:
+            if neighbor not in visited:
+                queue.append(neighbor)
+                visited.add(neighbor)  ---	•	Adds all unvisited neighbors to the queue and marks them visited.
+
+g = Graph()
+g.add_edge(0, 1)
+g.add_edge(0, 2)
+g.add_edge(1, 2)
+g.add_edge(2, 3)
+g.add_edge(3, 4)   ----  	Creates a graph with the given edges.
+
+print("Depth First Search (starting from vertex 0):")
+g.dfs_recursive(0)   ---- runs DFS starting from node 0.
+
+print("\nBreadth First Search (starting from vertex 0):")
+g.bfs(0)   ---- runs BFS starting from node 0.
+
+Question:
+Conceptual Questions
+1.	What is a greedy algorithm?
+→ Chooses the best option at each step to get the final result.
+2.	Why is Selection Sort a greedy algorithm?
+→ It picks the smallest element in each step and places it in order.
+3.	Greedy vs Dynamic Programming?
+→ Greedy: Local best choice only.
+→ DP: Tries all options, stores results.
+4.	Time & Space Complexity?
+→ Time: O(n²)
+→ Space: O(1)
+5.	Best input for Selection Sort?
+→ Works same for all inputs, no performance boost on sorted data.
+6.	Best & Worst case time?
+→ Both are O(n²)
+🔹 Code-Based Questions
+1.	Outer vs Inner loop?
+→ Outer: Position to fill.
+→ Inner: Finds smallest element.
+2.	Use of min_index?
+→ Stores index of smallest number.
+3.	What if no swapping?
+→ List won’t be sorted.
+4.	Sort in descending?
+→ Find the maximum instead of minimum.
+5.	Already sorted input?
+→ Still takes O(n²) time.
+🔹 Application Questions
+1.	Where to use?
+→ Small data, simple cases, low memory.
+2.	Why avoid it?
+→ Slow for big data.
+3.	Use for large data?
+→ No, it’s too slow (O(n²)).
