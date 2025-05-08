@@ -78,3 +78,137 @@ df.plot.hist()
 
 df['Gender'].plot.hist()
 
+
+
+Decription:
+
+Objective:
+To perform data wrangling operations using Python on an open-source dataset, including data cleaning, transformation, and restructuring, to prepare the data for meaningful analysis and visualization.
+
+Theory:
+Data wrangling, also known as data munging, is the process of cleaning, transforming, and organizing raw data into a structured and usable format. It is a critical step in data analysis, as real-world data is often messy, incomplete, and inconsistent. Key steps in data wrangling include:
+
+Data Collection - Acquiring data from various sources like CSV, Excel, databases, or APIs.
+
+Data Cleaning - Handling missing values, removing duplicates, correcting data types, and managing outliers.
+
+Data Transformation - Normalizing, aggregating, or converting data into the desired structure.
+
+Feature Engineering - Creating new features or modifying existing ones to improve model performance.
+
+Data Integration - Merging or joining multiple datasets for comprehensive analysis.
+
+Python libraries like Pandas, NumPy, and OpenPyXL are widely used for these tasks, providing powerful tools for data manipulation and preprocessing.
+
+Conclusion:
+Through this practical, I developed a deeper understanding of the data wrangling process, including data cleaning, transformation, and feature engineering. This experience emphasized the importance of data quality in achieving accurate analysis and building robust machine learning models, highlighting the critical role of preprocessing in the data science workflow.
+
+
+Explainantion:
+
+import pandas as pd
+import numpy as np
+---pd is the alias for the Pandas library, used for data manipulation and analysis.
+   np is the alias for the NumPy library, used for numerical computations.
+
+data = {
+    "Name": ["Amit", "Priya", "Raj", "Sneha", "Vikram", "Ananya", "Rohan"],
+    "Gender": ["Male", "Female", "Male", "Female", "Male", "Female", "Male"],
+    "Marks": [85, 80, 78, 'Nan', 76, 82, 'Nan'],
+    "Age": [20,21,22,23,24,25,26]
+}
+df = pd.DataFrame(data)
+print(df)
+---Creates a dictionary data with Name, Gender, Marks, and Age as keys.
+Converts this dictionary into a DataFrame using pd.DataFrame().
+Prints the DataFrame.
+
+df.mean()
+---Calculates the mean of all numeric columns (Age and Marks) but does not store the result.
+
+cat=[]
+con=[]
+for i in df.columns:
+    if(df[i].dtypes=="object"):
+        cat.append(i)
+else:
+    con.append(i)
+df
+---cat: List to store categorical columns.
+con: List to store continuous (numerical) columns.
+Loops through each column:
+If the data type is object (i.e., text), it adds the column to cat.
+Otherwise, adds it to con.
+The else block is incorrectly placed here. It will always add the last column to con, even if it is object.
+
+cat con ---Printing Cat Con
+
+c=avg=sum=0
+for ele in df['Marks']:
+    if str(ele).isnumeric():
+        c+=1
+        sum+=ele
+if c>0:
+    avg=sum/c
+df=df.replace(to_replace='Nan', value=avg)
+df
+---Initializes counters c, avg, and sum to zero.
+Iterates through the Marks column:
+Counts and sums only numeric values.
+Calculates the average if at least one numeric value is present.
+Replaces all instances of 'Nan' (string) with this calculated average.
+
+df.isna().sum().plot(kind="bar")
+---Checks for missing (NaN) values in each column and plots the result as a bar graph.
+Useful for quickly visualizing which columns have missing data.
+
+df['Gender']=df['Gender'].map({'Male':0,'Female':1}).astype(int)
+df
+---Replaces Male with 0 and Female with 1.
+Converts the Gender column to int to make it a numerical feature.
+
+df=df[df['Marks']>80]
+df
+---Filters the DataFrame to keep only rows where Marks are greater than 80.
+
+df=df.drop(['Age'], axis=1)
+df
+---Removes the Age column from the DataFrame.
+The axis=1 parameter specifies that a column (not a row) is being dropped.
+
+data1 = {
+    "Name": ["Amit", "Priya", "Raj", "Sneha", "Vikram", "Ananya", "Rohan"],
+    "Gender": ["Male", "Female", "Male", "Female", "Male", "Female", "Male"],
+    "Marks": [85, 80, 78, 'Nan', 76, 82, 'Nan'],
+    "id": [120,121,122,123,124,125,126]
+}
+df1 = pd.DataFrame(data1)
+print(df1)
+
+data2 = {
+    "Fee":[1000, 100000, 50000, 2000, 500, 70000, 30000],
+    "id": [120,121,122,123,124,125,126]
+}
+df2 = pd.DataFrame(data2)
+print(df)
+---Creates df1 and df2 with unique IDs for each student.
+df1 has Name, Gender, Marks, and id.
+df2 has Fee and id.
+
+df3 = pd.merge(df1, df2)
+df3
+---Merges df1 and df2 on the common id column, combining their information.
+
+df.loc[0, 'Marks']= 100
+print(df)
+---Sets the Marks of the first row (index 0) to 100.
+
+df.plot.box()
+---Creates a box plot for the numeric columns in df to visualize data distribution and detect outliers.
+
+df.plot.hist()
+---Plots a histogram for all numeric columns, showing the frequency distribution.
+
+df['Gender'].plot.hist()
+---Plots a histogram specifically for the Gender column, which now contains 0s and 1s.
+
