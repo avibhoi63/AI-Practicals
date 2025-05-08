@@ -1,0 +1,265 @@
+Aim: Implement logistic regression using python to perform classifiaction on
+social network_ads , cv dataset.
+
+Code:
+
+import pandas as pd
+
+df.shape
+
+df = pd.read_csv('IRIS.csv')
+
+df
+
+#input data
+x=df.drop('species',axis=1)
+#output data
+y=df['species']
+
+y.value_counts()
+
+#cross validation
+from sklearn.model_selection import train_test_split
+
+x_train ,x_test,y_train,y_test=train_test_split(x,y,random_state=0,test_size=0.25)
+
+x_train.shape
+
+x_test.shape
+
+#import the class
+from sklearn.naive_bayes import GaussianNB
+
+#create the object
+clf= GaussianNB()
+
+#train the algorithm
+clf.fit(x_train,y_train)
+
+y_pred=clf.predict(x_test)
+
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
+
+from sklearn.metrics import plot_confusion_matrix
+
+from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.metrics import confusion_matrix
+
+confusion_matrix(y_test,y_pred)
+
+plot_confusion_matrix(clf,x_test,y_test)
+
+cm = confusion_matrix(y_test, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+disp.plot()
+
+accuracy_score(y_test,y_pred)
+
+clf.predict_proba(x_test)
+
+newl=[[4.5,2.9,3.1,0.4]]
+clf.predict(newl)[0]
+
+newl=[[5.5,3.1,1.0,0.8]]
+clf.predict(newl)[0]
+
+newl=[[6.5,3.3,4.9,1.8]]
+clf.predict(newl)[0]
+
+print(classification_report(y_test,y_pred))
+
+
+Decription:
+
+Objective:
+To implement logistic regression using Python for binary classification on the Social_Network_Ads and CV dataset, evaluating the model's performance through metrics like accuracy, precision, recall, and confusion matrix.
+
+Theory:
+Logistic regression is a supervised machine learning algorithm used for binary and multiclass classification problems. It models the relationship between one or more independent variables (features) and a binary dependent variable (target) using a sigmoid function, which outputs probabilities ranging from 0 to 1. The primary steps in a logistic regression workflow include:
+ Data Preprocessing - Cleaning, scaling, and splitting the data into training and testing sets.
+ Model Training - Fitting the logistic regression model to the training data.
+ Prediction - Using the trained model to predict outcomes on the test set.
+ Evaluation - Assessing the model's performance using metrics like:
+   Accuracy - The percentage of correctly classified instances.
+   Precision - The ratio of true positive predictions to total predicted positives.
+   Recall - The ratio of true positive predictions to total actual positives.
+   Confusion Matrix - A matrix to visualize the performance by showing true vs. predicted values.
+Mathematically, the logistic regression function is given by
+           P(Y=1|X) = 1 / 1 + e^-(b,0 + b,1 X)
+
+where 
+β,0 is the intercept, β,1 represents the coefficients, and X is the feature set.
+Logistic regression is particularly effective when the relationship between the features and the target is approximately linear and the target variable is binary.
+
+Conclusion:
+Through this practical, I developed a logistic regression model to classify social media ad responses and CV profiles. This exercise enhanced my understanding of binary classification, feature scaling, and model evaluation, demonstrating the importance of logistic regression in real-world applications like marketing, hiring, and medical diagnostics.
+
+Explainantion:
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, plot_confusion_matrix, ConfusionMatrixDisplay
+----pandas: For data loading and manipulation.
+    train_test_split: To split the data into training and testing sets.
+    GaussianNB: Implements the Gaussian Naive Bayes algorithm.
+    Metrics: For evaluating the model's performance.
+
+df = pd.read_csv('IRIS.csv')
+df.shape
+df
+----Reads the IRIS.csv file into a pandas DataFrame.
+   df.shape prints the number of rows and columns (expected to be 150 rows and 5 columns).
+   Displays the entire dataset to confirm it loaded correctly.
+
+# Input data (features)
+x = df.drop('species', axis=1)
+# Output data (target)
+y = df['species']
+----x: Contains all the feature columns (sepal length, sepal width, petal length, petal width).
+    y: Contains the target column species.
+
+y.value_counts()
+---Displays the distribution of each species in the dataset, confirming a balanced dataset if each species has approximately 50 samples.
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=0, test_size=0.25)
+----Splits the data into 75% training and 25% testing, ensuring random splitting with a fixed random_state for reproducibility.
+
+# Create the model object
+clf = GaussianNB()
+# Train the model
+clf.fit(x_train, y_train)
+---Creates a GaussianNB object.
+  Trains the model using the training data (fitting the Gaussian Naive Bayes algorithm).
+
+y_pred = clf.predict(x_test)
+---Uses the trained model to predict the species for the test data.
+
+confusion_matrix(y_test, y_pred)
+---Generates a confusion matrix to summarize the performance of the model by comparing actual vs. predicted labels.
+
+cm = confusion_matrix(y_test, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+disp.plot()
+---An alternative way to plot the confusion matrix, often providing more customization options.
+
+accuracy_score(y_test, y_pred)---Calculates the overall accuracy of the model (ratio of correct predictions to total predictions).
+
+newl = [[4.5, 2.9, 3.1, 0.4]]
+clf.predict(newl)[0]
+
+newl = [[5.5, 3.1, 1.0, 0.8]]
+clf.predict(newl)[0]
+
+newl = [[6.5, 3.3, 4.9, 1.8]]
+clf.predict(newl)[0]
+----Makes predictions for new, unseen samples, returning the predicted species for each input.
+
+print(classification_report(y_test, y_pred))
+---Prints a detailed report including precision, recall, f1-score, and support for each class, giving a complete view of the model’s performance
+
+Questions:
+
+Basic Concept Questions:
+What is the Naive Bayes algorithm?
+It is a probabilistic classifier based on Bayes' theorem, assuming feature independence.
+
+Why is it called Naive Bayes?
+Because it assumes that all features are independent of each other, which is a "naive" assumption.
+
+What assumptions does Naive Bayes make?
+It assumes that all features are conditionally independent given the target class.
+
+Why did you choose GaussianNB for this task?
+Because the Iris dataset features are continuous, and GaussianNB works well with normally distributed data.
+
+How does Gaussian Naive Bayes differ from other types of Naive Bayes classifiers?
+It assumes the data follows a Gaussian (normal) distribution, unlike Multinomial or Bernoulli Naive Bayes.
+
+Data Preparation and Preprocessing:
+Why did you drop the 'species' column for the input data (X)?
+The 'species' column is the target variable (Y), not a feature, so it must be separated for training.
+
+What is the significance of using 'random_state' in train_test_split?
+It ensures the data split is reproducible, providing consistent training and test sets across runs.
+
+Why is it important to split the data into training and test sets?
+To evaluate the model's performance on unseen data, reducing the risk of overfitting.
+
+What will happen if you set the test_size to 0.5?
+The data will be split equally, with 50% for training and 50% for testing.
+
+How would you handle missing values if the dataset had any?
+By removing them, imputing with mean/median, or using models that can handle missing data directly.
+
+Model Training and Prediction:
+What does the 'fit()' method do in the context of this code?
+It trains the Naive Bayes model on the training data.
+
+What is the role of the 'predict()' method?
+It uses the trained model to make predictions on new or test data.
+
+How would you evaluate the quality of your model?
+Using metrics like accuracy, confusion matrix, precision, recall, and F1-score.
+
+What is the difference between predict() and predict_proba()?
+predict() returns the predicted class, while predict_proba() gives the probability estimates for each class.
+
+Why is it important to evaluate your model on a test set?
+To assess how well the model generalizes to unseen data, ensuring reliable performance.
+
+Model Evaluation:
+What does a confusion matrix tell you?
+It shows the counts of true positive, true negative, false positive, and false negative predictions.
+
+What do the diagonal and off-diagonal elements in a confusion matrix represent?
+Diagonal = Correct predictions; Off-diagonal = Misclassifications.
+
+How is accuracy calculated in a classification problem?
+(True Positives + True Negatives) / Total Predictions.
+
+What is the difference between precision, recall, and F1-score?
+
+Precision: Ratio of correct positive predictions to total predicted positives.
+
+Recall: Ratio of correct positive predictions to total actual positives.
+
+F1-Score: Harmonic mean of precision and recall.
+
+When is accuracy not a good measure of a model’s performance?
+In cases of imbalanced classes, where one class dominates the data.
+
+Advanced/Follow-up Questions:
+Can Naive Bayes be used for multi-class classification?
+Yes, it naturally supports multi-class classification.
+
+What are some advantages and disadvantages of the Naive Bayes algorithm?
+Advantages: Fast, simple, effective with small data. Disadvantages: Strong independence assumption, sensitive to irrelevant features.
+
+How would you improve the performance of this model?
+Use feature scaling, select important features, or try other classifiers.
+
+What is the significance of the prior probability in Naive Bayes?
+It reflects the initial likelihood of each class before any data is observed.
+
+How would you tune the hyperparameters for this Naive Bayes model?
+Use grid search or cross-validation to find the best parameters.
+
+Practical Scenario Questions:
+If the dataset had more features, would Naive Bayes still be a good choice?
+Not always, as it assumes feature independence, which may not hold with many correlated features.
+
+How would you handle imbalanced classes in the IRIS dataset?
+Use techniques like oversampling, undersampling, or adjusting class weights.
+
+What would you do if you found the model was overfitting?
+Use more training data, regularization, or simpler models.
+
+Can you explain the output of the classification report?
+It provides precision, recall, F1-score, and support for each class.
+
+What would you expect to happen if you trained this model on a much larger dataset?
+The model might become more accurate but could also be slower to train if the independence assumption is violated.
+
