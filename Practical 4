@@ -150,3 +150,95 @@ print(ytest)---Prints the actual values of MEDV from the test set.
 print(pred)---Prints the predicted values of MEDV from the model.
 
 
+
+Questions:
+
+What is Linear Regression?
+Linear Regression predicts a continuous target variable using one or more input features by fitting a straight line.
+
+Difference between Simple and Multiple Linear Regression?
+Simple has one feature (e.g., RM), while Multiple has two or more features.
+
+Why use RM as the feature?
+RM (average rooms) is highly correlated with MEDV (house price), making it a strong predictor.
+
+Why split the data?
+To evaluate the model on unseen data and prevent overfitting.
+
+Purpose of train_test_split?
+To divide the data into training and testing sets for fair model evaluation.
+
+Why use pd.read_csv()?
+To read the CSV file into a Pandas DataFrame for easier data manipulation.
+
+Purpose of data.info()?
+To check data types, non-null counts, and memory usage.
+
+Why check data.describe()?
+To understand the statistical summary of each column, like mean, min, and max values.
+
+Why use data.corr()?
+To find correlations between features, helping select the best predictor.
+
+Handling missing values?
+Replace them, drop rows, or use imputation depending on the context.
+
+What does fit() do?
+It trains the model using the training data.
+
+Role of b0 (intercept) and b1 (coefficient)?
+b0 is the starting point of the line, b1 is the slope indicating the impact of RM on MEDV.
+
+Difference between scatterplot() and regplot()?
+scatterplot shows data points, regplot adds the regression line.
+
+Why visualize X and Y first?
+To confirm a linear relationship exists, which is crucial for linear regression.
+
+Interpret a negative coefficient?
+It means the target variable decreases as the feature value increases.
+
+Why MAE and MSE?
+MAE measures average error, MSE penalizes larger errors more, providing a different perspective on model accuracy.
+
+Difference between MAE and MSE?
+MSE is more sensitive to outliers because it squares the errors.
+
+Overfitting vs Underfitting?
+Overfitting means the model is too complex, underfitting means it's too simple.
+
+What is R-squared?
+It measures the proportion of variance explained by the model, typically included for deeper evaluation.
+
+Improving accuracy?
+Use multiple features, remove outliers, or try regularization.
+
+Why normalize or standardize?
+To avoid features with larger scales dominating the model.
+
+Extend to Multiple Linear Regression?
+Add more features, like LSTAT or TAX, to the X matrix.
+
+Non-linear relationship handling?
+Use polynomial features or non-linear models like decision trees.
+
+Handling multicollinearity?
+Remove correlated features or use Ridge or Lasso regression.
+
+Real-world use of this model?
+For real estate pricing, market analysis, or investment decisions.
+
+Optimizing for large datasets?
+Use libraries like Dask or Spark for distributed processing.
+
+Why Seaborn over Matplotlib?
+Seaborn has simpler syntax for statistical plots and better aesthetics.
+
+Role of model.predict()?
+Generates predictions based on the model's learned parameters.
+
+Why check for heteroscedasticity?
+To confirm the model's errors are consistent across all predictions.
+
+Automating this process?
+Use a pipeline or deploy the model as an API for continuous predictions.
