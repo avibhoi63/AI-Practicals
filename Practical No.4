@@ -1,0 +1,55 @@
+Aim: Create a Linear Regression model using python to predict home prise using Boston Housing dataset.
+
+Codes:
+
+import pandas as pd
+
+data =pd.read_csv("C:/Users/nikhi/Downloads/HousingData.csv")
+
+data
+
+data.head(2)
+
+data.info()
+
+data.describe()
+
+data
+.corr()
+
+X = data[["RM"]]
+Y = data[["MEDV"]]
+
+from seaborn import scatterplot
+scatterplot(X.RM,Y.MEDV)
+
+from sklearn.model_selection import train_test_split
+xtrain,xtest,ytrain,ytest=train_test_split(X,Y,test_size=0.2)
+
+from sklearn.linear_model import LinearRegression
+lm = LinearRegression()
+model = lm.fit(xtrain,ytrain)
+
+b1 = model.coef_
+
+b0 = model.intercept_
+
+b0 
+
+b1
+
+from seaborn import regplot
+regplot(X,Y)
+
+pred = model.predict(xtest)
+
+from sklearn.metrics import mean_absolute_error
+mean_absolute_error(ytest,pred)
+
+from sklearn.metrics import mean_squared_error
+mean_squared_error(ytest,pred)
+
+print(ytest)
+
+print(pred)
+
