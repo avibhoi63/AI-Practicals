@@ -53,3 +53,100 @@ print(ytest)
 
 print(pred)
 
+
+Description:
+
+Objective:
+To understand the principles of Linear Regression.
+To explore the Boston Housing dataset.
+To preprocess the data for better model performance.
+To train, test, and evaluate the Linear Regression model.
+To make predictions and assess the accuracy of the model.
+
+Theory:
+Linear Regression is a supervised learning algorithm used for predicting a continuous target variable based on one or more input features. It attempts to model the relationship between the independent variables (features) and the dependent variable (target) by fitting a straight line (or hyperplane in multiple dimensions) that best represents the data.
+The equation for Simple Linear Regression is:
+𝑌 = 𝑏,0 + 𝑏,1 𝑋 + 𝜖
+Where:
+Y = Predicted output (house price)
+b_0 = Intercept (where the line crosses the Y-axis)
+b_1 = Coefficient (slope of the line)
+X = Input feature
+ε = Error term (residual)
+
+In Multiple Linear Regression, the equation extends to:
+Y= b,0 + b,1 X,1 + b,2 X,2 + ⋯ + b,n X,n + ϵ
+
+Key Steps in Building the Model:
+Data Collection - Load the Boston Housing dataset.
+Data Preprocessing - Handle missing values, normalize features, and split the data.
+Model Training - Train the Linear Regression model on the training set.
+Model Evaluation - Test the model’s accuracy using metrics like R-squared and Mean Squared Error (MSE).
+Prediction - Use the trained model to predict house prices.
+Visualization - Plot the results to assess model performance.
+
+Conclusion:
+Through this practical, I developed a deeper understanding of how Linear Regression works and its applications in real-world prediction problems. I successfully built and evaluated a model that predicts house prices based on various features, highlighting the importance of data preprocessing and feature selection for accurate predictions. This exercise reinforced the critical role of regression in data science and machine learning.
+
+
+Explaination:
+
+import pandas as pd---Imports the Pandas library for data manipulation and analysis.
+                      pd is the common alias for Pandas.
+
+data = pd.read_csv("C:/Users/nikhi/Downloads/HousingData.csv")
+---Reads the HousingData.csv file from the specified path into a Pandas DataFrame named data.
+   Assumes the file is in CSV format.
+
+data---Display the DataFrame
+
+data.head(2)---hows the first 2 rows of the dataset to get a quick preview of the data.
+
+data.info()---OVerview of dataframe
+
+data.describe()---Generates summary statistics
+
+data.corr()---Calculates the correlation matrix to show the relationship between each pair of columns.
+
+X = data[["RM"]]
+Y = data[["MEDV"]]
+---Sets X to the RM (average number of rooms per dwelling) column, which will be the input feature.
+   Sets Y to the MEDV (Median value of owner-occupied homes) column, which will be the target variable.
+
+from seaborn import scatterplot
+scatterplot(X.RM,Y.MEDV)---Creates a scatter plot to visualize the relationship between RM (number of rooms) and MEDV (house price).
+
+from sklearn.model_selection import train_test_split
+xtrain, xtest, ytrain, ytest = train_test_split(X, Y, test_size=0.2)
+---Splits the data into training and testing sets.
+   80% for training, 20% for testing by default.
+   Randomly selects data, ensuring the model is evaluated on unseen data.
+
+from sklearn.linear_model import LinearRegression
+lm = LinearRegression()
+model = lm.fit(xtrain,ytrain)---Creates a LinearRegression model object (lm)
+
+b1 = model.coef_
+---Retrieves the intercept (constant) of the linear regression line.
+
+b0 ---Prints the intercept of the model.
+
+b1---Prints the coefficient of the model, indicating how much MEDV changes for a one-unit change in RM
+
+from seaborn import regplot
+regplot(X, Y)---Creates a regression plot to visualize the fitted line over the original data points.
+
+from sklearn.metrics import mean_absolute_error
+mean_absolute_error(ytest, pred)
+---Calculates the Mean Absolute Error (MAE), which measures the average absolute difference between the actual and predicted values.
+   Lower values indicate better model performance.
+
+from sklearn.metrics import mean_squared_error
+mean_squared_error(ytest, pred)---Calculates the Mean Squared Error (MSE), which measures the average squared difference between the actual and predicted values.
+                                  More sensitive to outliers than MAE.
+
+print(ytest)---Prints the actual values of MEDV from the test set.
+
+print(pred)---Prints the predicted values of MEDV from the model.
+
+
