@@ -212,3 +212,68 @@ df.plot.hist()
 df['Gender'].plot.hist()
 ---Plots a histogram specifically for the Gender column, which now contains 0s and 1s.
 
+Questions:
+
+1.What is Data Wrangling and why is it important in data science?
+Data wrangling is the process of cleaning and transforming raw data into a usable format. It’s important because real-world data is often messy and needs to be structured for meaningful analysis or modeling.
+
+2.Why did you use a DataFrame instead of a regular Python dictionary or list?
+A DataFrame is more powerful than a dictionary or list because it allows you to work with structured data, perform complex operations, and handle missing values efficiently.
+
+3.What are the differences between Series and DataFrame in Pandas?
+A Series is a one-dimensional labeled array, while a DataFrame is a two-dimensional table with rows and columns.
+
+4.Why did you use pd.DataFrame() to create the data structure?
+I used pd.DataFrame() because it allows for easy manipulation and analysis of structured data (rows and columns), which is the standard format for most data tasks.
+
+5.Why did you choose to use 'Nan' as a placeholder for missing values instead of NaN?
+The 'Nan' value was used as a string placeholder to demonstrate how to handle missing or incorrect values. In practice, NaN is the proper placeholder for missing numeric data.
+
+6.How did you handle missing values in the Marks column, and why is it important?
+I replaced missing values in Marks with the column’s average. Handling missing data ensures accurate analysis and prevents errors in calculations or model training.
+
+7.What is the purpose of df.replace() in this code?
+df.replace() was used to replace the 'Nan' values with the computed average, ensuring no missing values remain in the data.
+
+8.Why did you map Male and Female to 0 and 1? What are the advantages of this approach?
+Mapping Male and Female to 0 and 1 converts the categorical data into numerical form, making it easier for machine learning algorithms to process.
+
+9.Why did you drop the Age column in this practical?
+The Age column was dropped because it wasn’t necessary for the specific analysis in this example. It could be retained if relevant to the problem.
+
+10.What is the difference between df.dropna() and df.replace() for handling missing data?
+df.dropna() removes rows with missing values, while df.replace() replaces missing values with a specified value, like the average.
+
+11.Why did you use pd.merge() to combine df1 and df2?
+pd.merge() was used to combine two DataFrames based on a common column (id), creating a new DataFrame that contains data from both.
+
+12.What is the difference between categorical and continuous data?
+Categorical data represents categories or labels (e.g., gender, color), while continuous data represents numerical values that can have a range of values (e.g., age, salary).
+
+13.Why did you choose to replace the 'Nan' values in the Marks column with the average instead of just dropping them?
+Replacing missing values with the average ensures we retain all data points, preserving the sample size, which is important for analysis and model training.
+
+14.What is the impact of outliers on data analysis, and how can you handle them?
+Outliers can skew analysis and model performance. They can be handled by removing them or transforming the data to minimize their impact.
+
+15.Why is feature encoding (like converting Gender to 0/1) necessary in machine learning?
+Machine learning algorithms work with numerical data, so encoding categorical features like Gender into numerical values is required for them to process the data.
+
+16.What is the purpose of data visualization and why did you include a box plot and histogram in this practical?
+Data visualization helps understand data distributions, patterns, and outliers. The box plot shows data spread and outliers, while the histogram displays frequency distributions.
+
+17.How would you use this wrangled data for machine learning?
+The cleaned and transformed data can be used to train machine learning models, where the features are ready for algorithms to predict outcomes (e.g., predicting a student’s performance based on their marks and gender).
+
+18.Can you explain the significance of each step in the data wrangling process for real-world projects?
+Data wrangling ensures that the data is clean, consistent, and structured, which is crucial for accurate analysis and decision-making in real-world projects.
+
+19.How would you handle a scenario where the Marks column had a mix of strings and numbers?
+You would first identify and clean the data by converting valid strings to numeric values and removing or handling invalid ones (e.g., replacing them with NaN or imputation).
+
+20.Why is data quality important before applying machine learning algorithms?
+Poor-quality data leads to inaccurate models. Clean, consistent, and well-structured data ensures better performance and more reliable predictions.
+
+21.How can you automate this data wrangling process for repeated use?
+You can write reusable functions or create pipelines using libraries like Pandas or Scikit-learn to automate the data wrangling process for new datasets.
+
