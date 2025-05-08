@@ -59,3 +59,182 @@ This practical exercise provided a comprehensive understanding of how to use Sea
 
 
 Explaination:
+
+import seaborn as sns
+---mports the Seaborn library
+
+df = sns.load_dataset('titanic')
+df
+---Loads the built-in Titanic dataset from Seaborn, which contains 891 rows and 15 columns, including details like survival status, class, gender, age, fare, and port of embarkation.
+   Displays the complete dataset as a pandas DataFrame.
+
+df = df[['survived', 'class', 'sex', 'age', 'fare']]
+df
+---Filters the DataFrame to include only the columns 'survived', 'class', 'sex', 'age', and 'fare' for simpler analysis.
+   Displays the updated DataFrame.
+
+sns.jointplot(x='age', y='fare', data=df)
+----Creates a jointplot showing the relationship between age and fare with marginal histograms on the sides.
+    Useful for understanding the joint distribution and correlation between two continuous variables.
+
+sns.jointplot(x='age', y='fare', data=df, hue='survived')
+---Adds color encoding (hue) for the 'survived' column, distinguishing survivors from non-survivors.
+Helps visualize how survival status relates to age and fare.
+
+sns.jointplot(x='age', y='fare', data=df, hue='class')
+---Similar to the previous jointplot, but the data points are colored by passenger class (First, Second, Third).
+   Reveals how class and fare are closely related, with higher fares generally associated with higher classes.
+
+sns.pairplot(df, hue='sex')
+----Creates a grid of scatter plots for each possible pair of variables in the DataFrame, with histograms along the diagonal.
+    Colors the plots by sex, making it easy to identify gender-based patterns.
+
+sns.countplot(x=df['sex'])
+---Generates a countplot to show the frequency distribution of the 'sex' column.
+Quickly reveals the male-to-female ratio in the dataset.
+
+sns.countplot(x=df['class'])
+---Similar to the previous plot, but for 'class', showing the distribution of passengers across different ticket classes.
+
+sns.barplot(x='sex', y='survived', data=df)
+---Creates a barplot to visualize the average survival rate for each gender.
+Clearly shows that females had a significantly higher survival rate than males.
+
+sns.barplot(x='sex', y='survived', hue='class', data=df)
+----Adds an additional layer of grouping by 'class', revealing how survival rates vary across both sex and class.
+Typically shows that First Class passengers had better survival rates overall.
+
+sns.histplot(df['fare'])
+---Plots the distribution of the 'fare' column, showing how fares were mostly concentrated in the lower range.
+Useful for detecting skewness in the data.
+
+sns.kdeplot(df['fare'])---Creates a Kernel Density Estimate (KDE) plot to visualize the distribution of fares as a smooth curve.
+Offers a more refined view compared to the histogram, highlighting the underlying distribution shape.
+
+
+Questions :
+
+Basic Seaborn and Dataset Questions:
+What is Seaborn and why do we use it in data analysis?
+Seaborn is a statistical data visualization library built on Matplotlib, used for making complex plots easier and more informative.
+
+Why did you choose the Titanic dataset for this practical?
+It’s a classic dataset for learning EDA, with diverse features and a clear binary classification problem (survival).
+
+How is Seaborn different from Matplotlib?
+Seaborn is built on Matplotlib but adds powerful statistical graphing tools and attractive default styles.
+
+What is the significance of data visualization in data science?
+It helps uncover patterns, detect outliers, and present findings clearly.
+
+What type of data is typically stored in the Titanic dataset?
+Passenger demographics, travel class, fare, survival status, and family connections.
+
+Why did you filter the Titanic dataset to include only 'survived', 'class', 'sex', 'age', and 'fare'?
+To focus on key features relevant for survival analysis.
+
+How would you handle missing values in this dataset if they existed?
+By dropping rows, filling with mean/median, or using predictive imputation.
+
+Why is it important to understand the data before training a machine learning model?
+To identify relevant features, detect errors, and avoid overfitting.
+
+Specific Plot Questions:
+What is a jointplot and when should you use it?
+It shows the relationship between two variables with marginal distributions, useful for finding correlations.
+
+What is the difference between a jointplot and a pairplot?
+jointplot is for two variables, while pairplot is for all possible pairs of multiple variables.
+
+Why did you use 'hue' in some of the jointplots?
+To differentiate data points based on a categorical variable like 'survived' or 'class'.
+
+What insights can you gain from a jointplot with 'hue' for 'survived'?
+It shows survival patterns based on age and fare, revealing who had a better chance of survival.
+
+What does the pairplot tell you about the relationship between multiple variables?
+It shows pairwise relationships, distributions, and potential correlations.
+
+How does the countplot differ from the barplot in Seaborn?
+Countplot shows the frequency of each category, while barplot shows average values for a numerical variable.
+
+What information can you extract from the countplot of 'sex' and 'class'?
+The distribution of passengers by gender and travel class.
+
+Why is it useful to visualize survival rates using barplots?
+It clearly shows the impact of factors like gender and class on survival.
+
+What is a KDE plot and when would you use it over a histogram?
+It’s a smoothed version of a histogram, better for visualizing continuous distributions.
+
+Why do we often see skewed distributions in fare data?
+Because a few high fares significantly impact the overall distribution.
+
+What does the height of the bars in a barplot represent?
+The average value of the y-axis variable for each x-axis category.
+
+Why did you choose to visualize 'fare' with both histplot and kdeplot?
+To compare the raw distribution (histogram) with a smoother estimate (KDE).
+
+Data Insights and Analysis Questions:
+What can you infer about the survival rates based on 'sex' and 'class'?
+Females and higher-class passengers had better survival rates.
+
+Why do you think women had a higher survival rate in this dataset?
+Likely due to the "women and children first" evacuation policy.
+
+How does passenger class impact survival chances?
+Higher classes had more access to lifeboats and safer locations on the ship.
+
+What do you expect to see if you included 'age' in the survival analysis?
+Likely lower survival rates for older passengers and infants.
+
+How would you visualize the correlation between all numerical variables in this dataset?
+Using a heatmap or pairplot.
+
+What could cause outliers in the 'fare' distribution?
+Wealthier passengers or group ticket purchases.
+
+What would you do if you wanted to visualize survival rates across different age groups?
+Use a barplot or violin plot with age bins.
+
+How would you customize the color palette in these plots?
+Use the palette parameter in Seaborn or set a custom color map.
+
+What is the impact of adding 'hue' to your plots?
+It adds a third dimension, revealing subgroup patterns.
+
+How would you interpret a jointplot with tightly clustered points versus widely scattered points?
+Clusters indicate strong relationships, while scattered points suggest weak or no correlation.
+
+Practical and Follow-up Questions:
+Can you add titles and labels to make these plots more meaningful?
+Yes, using plt.title(), plt.xlabel(), and plt.ylabel().
+
+How would you save these plots as images for a report?
+Using plt.savefig('filename.png').
+
+What are the limitations of visual analysis?
+It can be subjective and might miss deeper statistical insights.
+
+How would you handle a situation where the plots are too crowded or hard to read?
+Use filtering, sampling, or split the data into smaller groups.
+
+What would you do if your dataset had more than 20 features?
+Use dimensionality reduction techniques like PCA or feature selection.
+
+Can you explain the purpose of exploratory data analysis (EDA) in machine learning?
+To understand data structure, detect anomalies, and guide feature engineering.
+
+How would you use this visual analysis to guide your feature selection for a machine learning model?
+By identifying the most impactful features on the target variable.
+
+What other features in the Titanic dataset might be interesting to explore?
+Family size, cabin location, and ticket type.
+
+How would you add annotations to these plots to make them more informative?
+Use plt.text() or sns.barplot() with annot=True.
+
+What is the next step after visualizing the data in a real-world data science project?
+Data cleaning, feature engineering, and model building.
+
