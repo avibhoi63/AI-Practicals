@@ -33,3 +33,29 @@ sns.histplot(df['fare'])
 
 sns.kdeplot(df['fare'])
 
+
+Description:
+
+Objective:
+To explore the inbuilt Titanic dataset using the Seaborn library in Python, analyzing various features to identify patterns and insights related to passenger survival rates, demographics, and travel characteristics.
+
+Theory:
+The Titanic dataset is a classic machine learning dataset that contains information about the passengers who were on board the RMS Titanic, which sank in 1912. It includes 891 rows and 12 columns, capturing details like Passenger Class (Pclass), Name, Sex, Age, SibSp (siblings/spouses aboard), Parch (parents/children aboard), Ticket, Fare, Cabin, and Embarked (port of embarkation).
+
+Exploratory Data Analysis (EDA) is a crucial first step in data science, helping to uncover hidden patterns, detect anomalies, test hypotheses, and check assumptions using statistical graphics. Seaborn is a powerful Python library built on top of matplotlib that provides a high-level interface for drawing informative and attractive statistical graphics. Key Seaborn functions often used in Titanic analysis include:
+    sns.countplot() - To visualize the count distribution of a categorical variable.
+    sns.barplot() - For showing the relationship between a categorical and a continuous variable.
+    sns.heatmap() - For visualizing correlation matrices.
+    sns.boxplot() - To identify outliers and understand data distribution.
+    sns.pairplot() - To visualize pairwise relationships in a dataset.
+ Common EDA steps for the Titanic dataset include:
+    Checking the distribution of survivors vs. non-survivors.
+    Analyzing survival rates by gender, class, age, and port of embarkation.
+    Identifying correlations between features like Pclass, Sex, and Fare with survival rates.
+
+Conclusion:
+This practical exercise provided a comprehensive understanding of how to use Seaborn for visual data exploration. It highlighted the critical role of data visualization in uncovering hidden patterns, such as the significant impact of gender, passenger class, and family connections on survival rates. This approach is essential for generating insights before building predictive models, ultimately improving the accuracy and interpretability of machine learning algorithms.
+
+
+
+Explaination:
